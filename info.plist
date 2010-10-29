@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>JavaScript JsLint</string>
+	<key>description</key>
+	<string>JsLint TextMate bundle. Fork me on GitHub.</string>
+	<key>contactEmailRot13</key>
+	<string>fgnass@gmail.com</string>
+	<key>contactName</key>
+	<string>Felix Gnass</string>
+	<key>uuid</key>
+	<string>991BFB64-FD02-409A-9563-1614EA74575F</string>
+</dict>
+</plist>

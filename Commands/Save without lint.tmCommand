@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>saveActiveFile</string>
+	<key>command</key>
+	<string># Do nothing, just save the active file</string>
+	<key>input</key>
+	<string>none</string>
+	<key>keyEquivalent</key>
+	<string>@S</string>
+	<key>name</key>
+	<string>Save without Lint</string>
+	<key>output</key>
+	<string>discard</string>
+	<key>scope</key>
+	<string>source.js</string>
+	<key>uuid</key>
+	<string>1B216EAA-FEAC-4F6A-BFBB-44047E034F02</string>
+</dict>
+</plist>

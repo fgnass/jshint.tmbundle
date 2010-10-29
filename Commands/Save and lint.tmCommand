@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>saveActiveFile</string>
+	<key>command</key>
+	<string>#!/usr/bin/env node
+require(process.ENV.TM_BUNDLE_SUPPORT + '/jslint.js');
+</string>
+	<key>input</key>
+	<string>none</string>
+	<key>keyEquivalent</key>
+	<string>@s</string>
+	<key>name</key>
+	<string>Save &amp; Lint</string>
+	<key>output</key>
+	<string>discard</string>
+	<key>scope</key>
+	<string>source.js</string>
+	<key>uuid</key>
+	<string>EC121F15-2F76-464C-92D3-0C7999CB35BD</string>
+</dict>
+</plist>
