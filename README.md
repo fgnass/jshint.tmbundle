@@ -10,3 +10,12 @@ Features:
 * Based on Node.js
 * Uses an unmodified version of [fulljslint.js](http://www.JSLint.com/fulljslint.js)
 * No Ruby, no Perl, no RegExps needed
+
+## Installation
+
+Download the [zip file](http://github.com/fgnass/jslint.tmbundle/zipball/master) and rename the
+extracted folder to `jslint.tmbundle`. Double-click.
+
+## Prerequisites
+
+You need [Node.js](http://nodejs.org/) and TextMate, that's all.
