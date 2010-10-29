@@ -5,7 +5,7 @@
 	<key>name</key>
 	<string>JavaScript JsLint</string>
 	<key>description</key>
-	<string>JsLint TextMate bundle. Fork me on GitHub.</string>
+	<string>Runs JsLint upon save. Pretty UI, Requires Node.js.</string>
 	<key>contactEmailRot13</key>
 	<string>fgnass@gmail.com</string>
 	<key>contactName</key>
