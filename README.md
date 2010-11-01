@@ -1,5 +1,7 @@
 #JsLint TextMate Bundle
 
+![Screenshot](http://posterous.com/getfile/files.posterous.com/temp-2010-10-26/zosDAtcIBDFmbqhfafpfIejpeFJudwlrxBgtqmDtJepczBbixiDxqBorcgGb/screenshot2.png)
+
 Features:
 
 * Pretty UI
@@ -15,6 +17,8 @@ Features:
 
 Download the [zip file](http://github.com/fgnass/jslint.tmbundle/zipball/master) and rename the
 extracted folder to `jslint.tmbundle`. Double-click.
+
+Alternatively you can also install the it using [GetBundles](http://github.com/adamsalter/GetBundles.tmbundle).
 
 ## Prerequisites
 
