@@ -11,6 +11,7 @@ input = input.replace(/^\#\!.*/, "");
 Script.runInThisContext(fs.readFileSync(__dirname + '/fulljslint.js', 'utf8'));
 
 var success = JSLINT(input, {
+	es5: true,
 	predef: [
 		// CommonJS
 		"exports", 
@@ -27,10 +28,12 @@ var success = JSLINT(input, {
 if (!success) {
 	var body = '';
 	JSLINT.errors.forEach(function(e) {
-		body += ('<a href="txmt://open?url=file://' + escape(file) + '&line=' + e.line + '&column=' + e.character + '">' + e.reason);
-		if (e.evidence) {
-			//TODO highlight column
-			body += '<pre>' + (e.evidence || '') + '</pre></a>';
+		if (e) {
+			body += ('<a href="txmt://open?url=file://' + escape(file) + '&line=' + e.line + '&column=' + e.character + '">' + e.reason);
+			if (e.evidence) {
+				//TODO highlight column
+				body += '<pre>' + (e.evidence || '') + '</pre></a>';
+			}
 		}
 	});
 	fs.readFile(__dirname + '/output.html', 'utf8', function(e, html) {
