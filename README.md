@@ -1,6 +1,6 @@
 #JsLint TextMate Bundle
 
-![Screenshot](http://posterous.com/getfile/files.posterous.com/temp-2010-10-26/zosDAtcIBDFmbqhfafpfIejpeFJudwlrxBgtqmDtJepczBbixiDxqBorcgGb/screenshot2.png)
+![Screenshot](https://github.com/downloads/fgnass/fgnass.github.com/jslint.png)
 
 Features:
 
