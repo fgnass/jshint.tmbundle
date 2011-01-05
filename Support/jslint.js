@@ -1,7 +1,8 @@
 var sys = require("sys"),
 	fs = require("fs"),
 	Script = process.binding('evals').Script,
-	file = process.ENV.TM_FILEPATH;
+	env = process.env || process.ENV,
+	file = env.TM_FILEPATH;
 
 var input = fs.readFileSync(file, 'utf8');
 
