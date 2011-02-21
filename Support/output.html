@@ -1,35 +1,40 @@
 <html>
-	<head>
-		<style type="text/css">
-		body {
-			background: #e8e8e8;
-			padding: 0;
-			margin: 0;
-		}
-		a { 
-			display: block;
-			text-decoration: none;
-			color: #444;
-			background: -webkit-gradient(linear, 0 100%, 0 0, from(#CACACA), to(#DCDCDC));
-			border-style: solid;
-			border-width: 1px 0;
-			border-color: #fff #000 #afafaf #000;
-			padding: 10px 20px;
-			text-shadow: 0 1px #fff;
-		}
-		a:hover {
-			background: -webkit-gradient(linear, 0 100%, 0 0, from(#8191B0), to(#B5C0D5));
-			color: #fff;
-			text-shadow: none;
-		}
-		pre {
-			font-size: 12px;
-			font-family: Monaco;
-			margin: 5px 0;
-		}
-		</style>
-	</head>
-	<body onload="window.resizeTo(800,document.getElementById('output').offsetHeight+22)" onblur="window.close()">
-		<div id="output">{body}</div>
-	</body>
+  <head>
+    <style type="text/css">
+    body {
+      background: #e8e8e8;
+      padding: 0;
+      margin: 0;
+    }
+    a { 
+      display: block;
+      text-decoration: none;
+      color: #444;
+      background: -webkit-gradient(linear, 0 100%, 0 0, from(#CACACA), to(#DCDCDC));
+      border-style: solid;
+      border-width: 1px 0;
+      border-color: #fff #000 #afafaf #000;
+      padding: 10px 20px;
+      text-shadow: 0 1px #fff;
+    }
+    a:hover {
+      background: -webkit-gradient(linear, 0 100%, 0 0, from(#8191B0), to(#B5C0D5));
+      color: #fff;
+      text-shadow: none;
+    }
+    tt {
+      display: block;
+      font-size: 12px;
+      font-family: Monaco;
+      margin: 5px 0;
+    }
+    tt em {
+      font-style: normal;
+      border-bottom: 2px solid red;
+    }
+    </style>
+  </head>
+  <body onload="window.resizeTo(800,document.getElementById('output').offsetHeight+22)" onblur="window.close()">
+    <div id="output">{body}</div>
+  </body>
 </html>
