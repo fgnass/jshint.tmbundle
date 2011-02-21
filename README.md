@@ -15,7 +15,7 @@ Features:
 
 ## Installation
 
-Download the [zip file](http://github.com/fgnass/jslint.tmbundle/zipball/master) and rename the
+Download the [zip file](http://github.com/fgnass/jshint.tmbundle/zipball/master) and rename the
 extracted folder to `jshint.tmbundle`. Double-click.
 
 ## Prerequisites
