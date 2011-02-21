@@ -5,18 +5,20 @@
 	<key>beforeRunningCommand</key>
 	<string>saveActiveFile</string>
 	<key>command</key>
-	<string># Do nothing, just save the active file</string>
+	<string>#!/usr/local/bin/node
+var env = process.env || process.ENV;
+require(env.TM_BUNDLE_SUPPORT + '/jshint.js');</string>
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
-	<string>@S</string>
+	<string>@s</string>
 	<key>name</key>
-	<string>Save without Lint</string>
+	<string>Save &amp; Hint</string>
 	<key>output</key>
-	<string>discard</string>
+	<string>none</string>
 	<key>scope</key>
 	<string>source.js</string>
 	<key>uuid</key>
-	<string>1B216EAA-FEAC-4F6A-BFBB-44047E034F02</string>
+	<string>0048A010-05A0-4A0E-BF97-793A3BA4617D</string>
 </dict>
 </plist>

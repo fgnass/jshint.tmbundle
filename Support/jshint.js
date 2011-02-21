@@ -9,9 +9,9 @@ var input = fs.readFileSync(file, 'utf8');
 //remove shebang
 input = input.replace(/^\#\!.*/, "");
 
-Script.runInThisContext(fs.readFileSync(__dirname + '/fulljslint.js', 'utf8'));
+Script.runInThisContext(fs.readFileSync(__dirname + '/fulljshint.js', 'utf8'));
 
-var success = JSLINT(input, {
+var success = JSHINT(input, {
 	es5: true,
 	predef: [
 		// CommonJS
@@ -28,7 +28,7 @@ var success = JSLINT(input, {
 
 if (!success) {
 	var body = '';
-	JSLINT.errors.forEach(function(e) {
+	JSHINT.errors.forEach(function(e) {
 		if (e) {
 			body += ('<a href="txmt://open?url=file://' + escape(file) + '&line=' + e.line + '&column=' + e.character + '">' + e.reason);
 			if (e.evidence) {

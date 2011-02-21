@@ -3,14 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>JavaScript JsLint</string>
+	<string>JavaScript JSHint</string>
 	<key>description</key>
-	<string>Runs JsLint upon save. Pretty UI, Requires Node.js.</string>
+	<string>Runs JSHint upon save. Pretty UI, Requires Node.js.</string>
 	<key>contactEmailRot13</key>
-	<string>fgnass@gmail.com</string>
+	<string>obawbhe@cvreeroregrg.arg</string>
 	<key>contactName</key>
-	<string>Felix Gnass</string>
+	<string>Pierre Bertet</string>
 	<key>uuid</key>
-	<string>991BFB64-FD02-409A-9563-1614EA74575F</string>
+	<string>87D63FA0-E46B-40D0-8A56-B485242FD364</string>
 </dict>
 </plist>
