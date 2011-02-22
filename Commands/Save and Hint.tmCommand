@@ -5,13 +5,10 @@
   <key>beforeRunningCommand</key>
   <string>saveActiveFile</string>
   <key>command</key>
-  <string>#!/usr/bin/env node
-var env = process.env || process.ENV,
-    jshint = require(env.TM_BUNDLE_SUPPORT + '/jshint-tm');
-
-jshint({
-    es5: true,
-    predef: [
+  <string>INIT_SCRIPT=$(cat &lt;&lt;EOF
+    tmJSHINT({
+      es5: true,
+      predef: [
         // CommonJS
         "exports",
         "require",
@@ -21,8 +18,12 @@ jshint({
         "process",
         "__filename",
         "__dirname"
-    ]
-});</string>
+      ]
+    });
+EOF
+)
+
+sh "$TM_BUNDLE_SUPPORT/jshint-tm.sh" "$INIT_SCRIPT"</string>
   <key>input</key>
   <string>none</string>
   <key>keyEquivalent</key>
@@ -30,10 +31,10 @@ jshint({
   <key>name</key>
   <string>Save &amp; Hint</string>
   <key>output</key>
-  <string>none</string>
+  <string>discard</string>
   <key>scope</key>
   <string>source.js</string>
   <key>uuid</key>
-  <string>0048A010-05A0-4A0E-BF97-793A3BA4617D</string>
+  <string>E3105500-D716-43E0-AA9C-229C6BB5425A</string>
 </dict>
 </plist>
