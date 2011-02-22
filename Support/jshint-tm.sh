@@ -16,6 +16,10 @@ jshint_script=$(cat "${TM_BUNDLE_SUPPORT}/jshint.js")
 # Init function
 init_function=$(cat <<EOF
   function tmJSHINT(options) {
+    
+    //remove shebang
+    jshint_input = jshint_input.replace(/^\#\!.*/, "");
+    
     if (!JSHINT(jshint_input, options)) {
       var body = '';
       JSHINT.errors.forEach(function(e) {
