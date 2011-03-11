@@ -1,7 +1,17 @@
 var sys = require("sys"),
   fs = require("fs"),
   env = process.env || process.ENV,
-  JSHINT = require('./jshint.js').JSHINT;
+  JSHINT = require('./jshint.js').JSHINT,
+  entities = {
+    '&': '&amp;',
+    '"': '&quot;',
+    '<': '&lt;',
+    '>': '&gt;'
+  };
+
+function html(s) {
+  return (s || '').replace(/[&"<>]/g, function(c) {return entities[c] || c;});
+}
 
 module.exports = function (options) {
   var file = env.TM_FILEPATH,
@@ -9,7 +19,7 @@ module.exports = function (options) {
     body = '';
 
   //remove shebang
-  input = input.replace(/^\#\!.*/, "");
+  input = input.replace(/^\#\!.*/, '');
 
   if (!JSHINT(input, options)) {
     JSHINT.errors.forEach(function(e) {
@@ -17,11 +27,11 @@ module.exports = function (options) {
         body += ('<a href="txmt://open?url=file://' + escape(file) + '&line=' + e.line + '&column=' + e.character + '">' + e.reason);
         if (e.evidence && !isNaN(e.character)) {
           body += '<tt>';
-          body += e.evidence.substring(0, e.character-1);
+          body += html(e.evidence.substring(0, e.character-1));
           body += '<em>';
-          body += (e.character <= e.evidence.length) ? e.evidence.substring(e.character-1, e.character) : '&nbsp;';
+          body += (e.character <= e.evidence.length) ? html(e.evidence.substring(e.character-1, e.character)) : '&nbsp;';
           body += '</em>';
-          body += e.evidence.substring(e.character);
+          body += html(e.evidence.substring(e.character));
           body += '</tt>';
         }
         body += '</a>';
