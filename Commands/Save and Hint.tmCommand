@@ -11,6 +11,7 @@ var env = process.env || process.ENV,
 
 jshint({
     es5: true,
+    forin: true,
     predef: [
         // CommonJS
         "exports",
