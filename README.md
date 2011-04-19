@@ -11,6 +11,7 @@ Features:
 * Can be bypassed by pressing ⇧⌘S
 * Output is only shown when errors are found
 * Window is automatically closed when it looses focus
+* Auto-updates itself to the latest version of JSHint
 * Based on Node.js
 
 ## Installation
