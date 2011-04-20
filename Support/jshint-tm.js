@@ -10,31 +10,32 @@ var entities = {
   '>': '&gt;'
 };
 
+function html(s) {
+  return (s || '').replace(/[&"<>]/g, function(c) {return entities[c] || c;});
+}
+
 /**
  * Downloads the latest JSHint version from jshint.com and invokes the callback when done.
  */
 function download(ready) {
-  try {
-    var req = http.get({host: 'jshint.com', port: 80, path: '/jshint.js'}, function(res) {
-      if (res.statusCode == 200) {
-        res.setEncoding('utf8');
-        var file = fs.createWriteStream(jshintPath);
-        res.on('data', function(chunk) {
-          file.write(chunk);
-        });
-        res.on('end', function() {
-          file.end();
-          ready();
-        });
-      }
-      else {
+  var req = http.get({host: 'jshint.com', port: 80, path: '/jshint.js'}, function(res) {
+    if (res.statusCode == 200) {
+      res.setEncoding('utf8');
+      var file = fs.createWriteStream(jshintPath);
+      res.on('data', function(chunk) {
+        file.write(chunk);
+      });
+      res.on('end', function() {
+        file.end();
         ready();
-      }
-    });
-  }
-  catch(err) {
-    ready();
-  }
+      });
+    }
+    else {
+      ready('Download of jshint.js failed. HTTP status code: ' + res.statusCode);
+    }
+  }).on('error', function(err) {
+    ready('Download of jshint.js failed: ' + html(err.message));
+  });
 }
 
 /**
@@ -42,10 +43,12 @@ function download(ready) {
  * invokes the given callback, passing the JSHINT object. 
  */
 function autoupdate(callback) {
-  function done() {
-    callback(require(jshintPath).JSHINT);
+  var fileExists;
+  function done(err) {
+    callback(err, (!err || fileExists) && require(jshintPath).JSHINT);
   }
   fs.stat(jshintPath, function(err, stats) {
+    fileExists = !err;
     if (err || (Date.now() - Date.parse(stats.mtime)) / 1000 / 60 / 60 / 24 >= 1) {
       return download(done);
     }
@@ -53,35 +56,40 @@ function autoupdate(callback) {
   });
 }
 
-function html(s) {
-  return (s || '').replace(/[&"<>]/g, function(c) {return entities[c] || c;});
-}
-
 module.exports = function(options) {
-  autoupdate(function(jshint) {
-    var file = env.TM_FILEPATH,
-      input = fs.readFileSync(file, 'utf8'),
-      body = '';
+  autoupdate(function(err, jshint) {
+    var body = '';
+    if (err) {
+      body += '<div class="error">' + err + '</div>';
+    }
+    if (jshint) {
 
-    //remove shebang
-    input = input.replace(/^\#\!.*/, '');
+      var file = env.TM_FILEPATH;
+      var input = fs.readFileSync(file, 'utf8');
 
-    if (!jshint(input, options)) {
-      jshint.errors.forEach(function(e) {
-        if (e) {
-          body += ('<a href="txmt://open?url=file://' + escape(file) + '&line=' + e.line + '&column=' + e.character + '">' + e.reason);
-          if (e.evidence && !isNaN(e.character)) {
-            body += '<tt>';
-            body += html(e.evidence.substring(0, e.character-1));
-            body += '<em>';
-            body += (e.character <= e.evidence.length) ? html(e.evidence.substring(e.character-1, e.character)) : '&nbsp;';
-            body += '</em>';
-            body += html(e.evidence.substring(e.character));
-            body += '</tt>';
+      //remove shebang
+      input = input.replace(/^\#\!.*/, '');
+
+      if (!jshint(input, options)) {
+        jshint.errors.forEach(function(e) {
+          if (e) {
+            var link = 'txmt://open?url=file://' + escape(file) + '&line=' + e.line + '&column=' + e.character;
+            body += ('<a class="txmt" href="' + link + '">' + e.reason);
+            if (e.evidence && !isNaN(e.character)) {
+              body += '<tt>';
+              body += html(e.evidence.substring(0, e.character-1));
+              body += '<em>';
+              body += (e.character <= e.evidence.length) ? html(e.evidence.substring(e.character-1, e.character)) : '&nbsp;';
+              body += '</em>';
+              body += html(e.evidence.substring(e.character));
+              body += '</tt>';
+            }
+            body += '</a>';
           }
-          body += '</a>';
-        }
-      });
+        });
+      }
+    }
+    if (body.length > 0) {
       fs.readFile(__dirname + '/output.html', 'utf8', function(e, html) {
         sys.puts(html.replace('{body}', body));
         process.exit(205); //show_html
