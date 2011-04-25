@@ -25,6 +25,7 @@ module.exports = function (options) {
     JSHINT.errors.forEach(function(e) {
       if (e) {
         body += ('<a href="txmt://open?url=file://' + escape(file) + '&line=' + e.line + '&column=' + e.character + '">' + e.reason);
+		body += '<tt class="line"> Line ' + e.line + ' Char ' + e.character + '</tt>';
         if (e.evidence && !isNaN(e.character)) {
           body += '<tt>';
           body += html(e.evidence.substring(0, e.character-1));

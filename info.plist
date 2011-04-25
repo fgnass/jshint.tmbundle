@@ -2,14 +2,20 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>name</key>
-	<string>JavaScript JSHint</string>
-	<key>description</key>
-	<string>Runs JSHint upon save. Pretty UI, Requires Node.js.</string>
 	<key>contactEmailRot13</key>
 	<string>fgnass@gmail.com</string>
 	<key>contactName</key>
 	<string>Felix Gnass</string>
+	<key>description</key>
+	<string>Runs JSHint upon save. Pretty UI, Requires Node.js.</string>
+	<key>name</key>
+	<string>JavaScript JSHint</string>
+	<key>ordering</key>
+	<array>
+		<string>0048A010-05A0-4A0E-BF97-793A3BA4617D</string>
+		<string>6CF005D9-FE6B-4771-AE3C-259FDD3808F0</string>
+		<string>7D2559CA-2963-4C26-B054-B32C0A6F4554</string>
+	</array>
 	<key>uuid</key>
 	<string>EC121F15-2F76-464C-92D3-0C7999CB35BD</string>
 </dict>

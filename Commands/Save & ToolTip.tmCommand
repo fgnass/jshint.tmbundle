@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
-	<string>nop</string>
+	<string>saveActiveFile</string>
 	<key>command</key>
 	<string>#!/usr/bin/env node
 var env = process.env || process.ENV,
-    jshint = require(env.TM_BUNDLE_SUPPORT + '/jshint-tm');
+    jshint = require(env.TM_BUNDLE_SUPPORT + '/jshint-tooltip-tm');
 
 jshint({
     es5: true,
@@ -27,14 +27,14 @@ jshint({
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
-	<string>^V</string>
+	<string>@s</string>
 	<key>name</key>
-	<string>Hint</string>
+	<string>Save &amp; ToolTip</string>
 	<key>output</key>
-	<string>none</string>
+	<string>showAsTooltip</string>
 	<key>scope</key>
 	<string>source.js</string>
 	<key>uuid</key>
-	<string>0048A010-05A0-4A0E-BF97-793A3BA4617D</string>
+	<string>6CF005D9-FE6B-4771-AE3C-259FDD3808F0</string>
 </dict>
 </plist>
