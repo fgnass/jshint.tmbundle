@@ -7,7 +7,8 @@ TextMate bundle for [JSHint](http://jshint.com/), the (Gentler) JavaScript Code 
 Features:
 
 * Pretty UI
-* Runs automatically upon save (⌘S)
+* Runs tooltip automatically upon save (⌘S)
+* Validation screen opens on ⇧⌘V
 * Can be bypassed by pressing ⇧⌘S
 * Output is only shown when errors are found
 * Window is automatically closed when it looses focus
@@ -15,7 +16,7 @@ Features:
 
 ## Installation
 
-Download the [zip file](http://github.com/fgnass/jshint.tmbundle/zipball/master) and rename the
+Download the [zip file](https://github.com/MrNibbles/jshint.tmbundle/zipball/master) and rename the
 extracted folder to `jshint.tmbundle`. Double-click.
 
 ## Prerequisites
@@ -32,3 +33,4 @@ You can set the PATH either via Preferences → Advanced → Shell Variables or 
 
 * [Pierre Bertet](https://github.com/bpierre/)
 * [Rob-ot](https://github.com/Rob-ot/)
+* [Anthony Mann](https://github.com/Rob-ot/)
