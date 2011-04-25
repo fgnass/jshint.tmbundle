@@ -35,4 +35,4 @@ You can set the PATH either via Preferences → Advanced → Shell Variables or 
 
 * [Pierre Bertet](https://github.com/bpierre/)
 * [Rob-ot](https://github.com/Rob-ot/)
-* [Anthony Mann](https://github.com/Rob-ot/)
+* [Anthony Mann](https://github.com/MrNibbles/)
