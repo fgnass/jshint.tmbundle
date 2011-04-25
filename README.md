@@ -5,12 +5,15 @@ TextMate bundle for [JSHint](http://jshint.com/), the (Gentler) JavaScript Code 
 This version provides a tool tip on save instead of spawning a new window containing errors. This interrupts your workflow less.
 
 ![Screenshot - Validation screen](//dl.dropbox.com/u/3972536/Github%20Images/validationPopup.png)
+Validation analysis view
 
 ![Screenshot - Tooltip on save](//dl.dropbox.com/u/3972536/Github%20Images/toolTip.png)
+On save tool tip
 
 Features:
 
 * Pretty UI
+* Highlights critical errors
 * Runs tooltip automatically upon save (⌘S)
 * Validation screen opens on ⇧⌘V
 * Can be bypassed by pressing ⇧⌘S
