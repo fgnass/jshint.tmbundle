@@ -54,7 +54,7 @@ module.exports = function (options) {
     if (warnings || errors) {
 		output = 'Errors: '+ errors + '\nWarnings: ' + warnings;
 		if(append){
-			body += '\n' + append;
+			output += '\n' + append;
 		}
 		sys.puts(output);
     }
