@@ -8,6 +8,7 @@
     }
     a { 
       display: block;
+      overflow: hidden;
       text-decoration: none;
       color: #444;
       background: -webkit-gradient(linear, 0 100%, 0 0, from(#CACACA), to(#DCDCDC));
@@ -22,6 +23,17 @@
       color: #fff;
       text-shadow: none;
     }
+	a.error {
+
+		background: -webkit-gradient(linear, 0 100%, 0 0, from(#512114), to(#A53627));
+		color: #fff;
+		text-shadow: 0 1px #300800;
+		border-top: #A54937;
+		border-bottom: #2C0700;
+	}
+	a.error:hover {
+		background: -webkit-gradient(linear, 0 100%, 0 0, from(#510D00), to(#A51909));
+	}
 	tt.line {
 		float: right;
 		font-size: 9px;

@@ -9,6 +9,22 @@ var sys = require("sys"),
     '>': '&gt;'
   };
 
+// Messages we would like to consider as warnings (feel free to change these)
+var warningMsgs = [
+	'Missing semicolon.', 
+	'Mixed spaces and tabs.',
+	'The body of a for in should be wrapped in an if statement to filter unwanted properties from the prototype'
+];
+
+function inArray(item, arry) {
+	for(var key in arry){
+		if(~item.indexOf(arry[key])){
+			return true;
+		}
+	}
+	return false;
+}
+
 function html(s) {
   return (s || '').replace(/[&"<>]/g, function(c) {return entities[c] || c;});
 }
@@ -16,7 +32,8 @@ function html(s) {
 module.exports = function (options) {
   var file = env.TM_FILEPATH,
     input = fs.readFileSync(file, 'utf8'),
-    body = '';
+    body = '',
+	lineClass = '';
 
   //remove shebang
   input = input.replace(/^\#\!.*/, '');
@@ -24,7 +41,8 @@ module.exports = function (options) {
   if (!JSHINT(input, options)) {
     JSHINT.errors.forEach(function(e) {
       if (e) {
-        body += ('<a href="txmt://open?url=file://' + escape(file) + '&line=' + e.line + '&column=' + e.character + '">' + e.reason);
+		lineClass = inArray(e.reason, warningMsgs) ? 'warning' : 'error';
+        body += ('<a class="'+ lineClass +'" href="txmt://open?url=file://' + escape(file) + '&line=' + e.line + '&column=' + e.character + '">' + e.reason);
 		body += '<tt class="line"> Line ' + e.line + ' Char ' + e.character + '</tt>';
         if (e.evidence && !isNaN(e.character)) {
           body += '<tt>';

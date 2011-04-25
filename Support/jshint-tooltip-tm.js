@@ -12,12 +12,13 @@ var sys = require("sys"),
 // Messages we would like to consider as warnings (feel free to change these)
 var warningMsgs = [
 	'Missing semicolon.', 
-	'Mixed spaces and tabs.'
+	'Mixed spaces and tabs.',
+	'The body of a for in should be wrapped in an if statement to filter unwanted properties from the prototype'
 ];
 
 function inArray(item, arry) {
 	for(var key in arry){
-		if(item === arry[key]){
+		if(~item.indexOf(arry[key])){
 			return true;
 		}
 	}
