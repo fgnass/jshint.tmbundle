@@ -4,9 +4,9 @@ TextMate bundle for [JSHint](http://jshint.com/), the (Gentler) JavaScript Code 
 
 This version provides a tool tip on save instead of spawning a new window containing errors. This interrupts your workflow less.
 
-![Screenshot - Validation screen](https://github.com/downloads/fgnass/fgnass.github.com/jslint.png)
+![Screenshot - Validation screen](//dl.dropbox.com/u/3972536/Github%20Images/validationPopup.png)
 
-![Screenshot - Tooltip on save](http://dl.dropbox.com/u/3972536/Github%20Images/toolTip.png)
+![Screenshot - Tooltip on save](//dl.dropbox.com/u/3972536/Github%20Images/toolTip.png)
 
 Features:
 
