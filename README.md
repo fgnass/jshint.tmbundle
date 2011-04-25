@@ -2,7 +2,9 @@
 
 TextMate bundle for [JSHint](http://jshint.com/), the (Gentler) JavaScript Code Quality Tool.
 
-![Screenshot](https://github.com/downloads/fgnass/fgnass.github.com/jslint.png)
+![Screenshot - Validation screen](https://github.com/downloads/fgnass/fgnass.github.com/jslint.png)
+
+![Screenshot - Tooltip on save](http://dl.dropbox.com/u/3972536/Github%20Images/toolTip.png)
 
 Features:
 
