@@ -21,13 +21,12 @@ function download(ready) {
   var req = http.get({host: 'jshint.com', port: 80, path: '/jshint.js'}, function(res) {
     if (res.statusCode == 200) {
       res.setEncoding('utf8');
-      var file = fs.createWriteStream(jshintPath);
+      var data = '';
       res.on('data', function(chunk) {
-        file.write(chunk);
+        data += chunk;
       });
       res.on('end', function() {
-        file.end();
-        ready();
+        fs.writeFile(jshintPath, data, ready);
       });
     }
     else {
