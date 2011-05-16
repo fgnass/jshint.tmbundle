@@ -2,6 +2,7 @@ var sys = require("sys"),
   fs = require("fs"),
   env = process.env || process.ENV,
   JSHINT = require('./jshint.js').JSHINT,
+  warningMsgs = require('./warning-msgs.js'),
   entities = {
     '&': '&amp;',
     '"': '&quot;',
@@ -9,13 +10,6 @@ var sys = require("sys"),
     '>': '&gt;'
   };
 
-// Messages we would like to consider as warnings (feel free to change these)
-var warningMsgs = [
-	'Missing semicolon.', 
-	'Mixed spaces and tabs.',
-	'The body of a for in should be wrapped in an if statement to filter unwanted properties from the prototype',
-	'is better written in dot notation'
-];
 
 function inArray(item, arry) {
 	for(var key in arry){
@@ -35,6 +29,8 @@ module.exports = function (options) {
     input = fs.readFileSync(file, 'utf8'),
     body = '',
 	lineClass = '';
+	
+	if(/\.js$/i.test(file) === false) return;
 
   //remove shebang
   input = input.replace(/^\#\!.*/, '');
