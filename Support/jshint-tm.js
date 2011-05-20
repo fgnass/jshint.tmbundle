@@ -10,7 +10,6 @@ var sys = require("sys"),
     '>': '&gt;'
   };
 
-
 function inArray(item, arry) {
 	for(var key in arry){
 		if(~item.indexOf(arry[key])){
