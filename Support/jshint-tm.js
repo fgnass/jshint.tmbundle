@@ -1,6 +1,6 @@
 var sys = require('sys');
 var fs = require('fs');
-var http = require('http');
+var http = require('https');
 var env = process.env || process.ENV;
 var jshintPath = __dirname + '/jshint.js';
 var entities = {
@@ -18,7 +18,7 @@ function html(s) {
  * Downloads the latest JSHint version from jshint.com and invokes the callback when done.
  */
 function download(ready) {
-  var req = http.get({host: 'jshint.com', port: 80, path: '/jshint.js'}, function(res) {
+  var req = https.get({host: 'raw.github.com', port: 80, path: '/jshint/jshint/master/jshint.js'}, function(res) {
     if (res.statusCode == 200) {
       res.setEncoding('utf8');
       var data = '';
