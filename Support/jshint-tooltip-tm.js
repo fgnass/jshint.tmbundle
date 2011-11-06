@@ -1,4 +1,4 @@
-var sys = require("sys"),
+var sys = require("util"),
   fs = require("fs"),
   env = process.env || process.ENV,
   JSHINT = require('./jshint.js').JSHINT,
@@ -35,16 +35,17 @@ module.exports = function (options) {
 
   //remove shebang
   input = input.replace(/^\#\!.*/, '');
-
+  
+  // This is a tad confusing, but essentially this evaluation returns true or false depending on the success of the file parse
   if (!JSHINT(input, options)) {
     JSHINT.errors.forEach(function(e) {
 		if (e) {
 			if(inArray(e.reason, warningMsgs)){
-				warnings++;
+				warnings += 1;
 			} else if (~e.reason.indexOf('Stopping, unable to continue.')) {
 				append += e.reason;
 			} else {
-				errors++;
+				errors += 1;
 			}
 		}
     });
