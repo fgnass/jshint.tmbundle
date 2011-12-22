@@ -1,4 +1,3 @@
-var sys = require('sys');
 var fs = require('fs');
 var https = require('https');
 var env = process.env || process.ENV;
@@ -90,7 +89,7 @@ module.exports = function(options) {
     }
     if (body.length > 0) {
       fs.readFile(__dirname + '/output.html', 'utf8', function(e, html) {
-        sys.puts(html.replace('{body}', body));
+        console.log(html.replace('{body}', body));
         process.exit(205); //show_html
       });
     }
