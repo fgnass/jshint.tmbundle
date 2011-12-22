@@ -69,10 +69,14 @@ module.exports = function(options) {
       input = input.replace(/^\#\!.*/, '');
 
       if (!jshint(input, options)) {
-        jshint.errors.forEach(function(e) {
+        jshint.errors.forEach(function(e, i) {
           if (e) {
             var link = 'txmt://open?url=file://' + escape(file) + '&line=' + e.line + '&column=' + e.character;
-            body += ('<a class="txmt" href="' + link + '">' + e.reason);
+            body += ('<a class="txmt" href="' + link + '" id="e' + (i+1) + '">');
+            if (i < 9) {
+              body += '<b>'+(i+1)+'</b>';
+            }
+            body += e.reason;
             if (e.evidence && !isNaN(e.character)) {
               body += '<tt>';
               body += html(e.evidence.substring(0, e.character-1));

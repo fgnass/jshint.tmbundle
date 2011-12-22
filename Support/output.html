@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <style type="text/css">
@@ -17,10 +18,26 @@
       padding: 10px 20px;
       text-shadow: 0 1px #fff;
     }
-    a.txmt:hover {
+    a.txmt b {
+      color: #fff;
+      background: #b0b0b0;
+      border-radius: 2px;
+      font-family: Helvetica;
+      font-size: 11px;
+      padding: 2px 6px;
+      margin-right: 4px;
+      display: inline-block;
+      vertical-align: top;
+      text-shadow: none;
+    }
+    a.selected {
       background: -webkit-gradient(linear, 0 100%, 0 0, from(#8191B0), to(#B5C0D5));
       color: #fff;
       text-shadow: none;
+      outline: none;
+    }
+    a.selected b {
+      background: #8191B0;
     }
     tt {
       display: block;
@@ -40,7 +57,66 @@
     }
     </style>
   </head>
-  <body onload="window.resizeTo(800,document.getElementById('output').offsetHeight+22)" onblur="window.close()">
+  <body>
     <div id="output">{body}</div>
   </body>
+  <script>
+
+  // Resize the window to fit the content
+  window.resizeBy(800-innerWidth, output.offsetHeight-innerHeight);
+
+  // Close popup on blur
+  window.onblur = close;
+
+  // The selected issue
+  var sel; 
+
+  /**
+   * Select the given element
+   */
+  function select(el) {
+    if (el) {
+      if (sel && sel != el) sel.classList.remove('selected');
+      el.classList.add('selected');
+      if (el.offsetTop < scrollY) {
+        // Scroll up
+        el.scrollIntoView();
+      }
+      else if (el.offsetTop + el.offsetHeight > innerHeight + scrollY) {
+        // Scroll down
+        el.scrollIntoView(false);
+      }
+      sel = el;
+    }
+  }
+
+  /**
+   * Go to the selected link
+   */
+  function go() {
+    if (sel && sel.href) window.location = sel.href;
+  }
+
+  // Select the first issue
+  select(e1);
+
+  document.addEventListener('keydown', function(ev) {
+    var key = ev.which;
+    if (key == 38) { // Up
+      select(sel.previousSibling);
+      ev.preventDefault();
+    }
+    else if (key == 40) { // Down
+      select(sel.nextSibling);
+      ev.preventDefault();
+    }
+    else if (key == 39 || key == 13) { // Right, Enter
+      go();
+    }
+    else {
+      select(document.getElementById('e' + String.fromCharCode(key)));
+      go();
+    }
+  });
+  </script>
 </html>
