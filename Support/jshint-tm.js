@@ -79,6 +79,7 @@ module.exports = function(options) {
             body += e.reason;
             if (e.evidence && !isNaN(e.character)) {
               body += '<tt>';
+              body += e.line + ': ';
               body += html(e.evidence.substring(0, e.character-1));
               body += '<em>';
               body += (e.character <= e.evidence.length) ? html(e.evidence.substring(e.character-1, e.character)) : '&nbsp;';
