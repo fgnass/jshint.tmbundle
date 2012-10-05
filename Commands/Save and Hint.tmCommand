@@ -8,22 +8,9 @@
   <string>#!/usr/bin/env node
 var env = process.env || process.ENV,
     jshint = require(env.TM_BUNDLE_SUPPORT + '/jshint-tm');
+    jshint_options = require(env.TM_BUNDLE_SUPPORT + '/jshint_options')();
 
-jshint({
-    es5: true,
-    forin: true,
-    predef: [
-        // CommonJS
-        "exports",
-        "require",
-        "module",
-        // NodeJS
-        "GLOBAL",
-        "process",
-        "__filename",
-        "__dirname"
-    ]
-});</string>
+jshint(jshint_options);</string>
   <key>input</key>
   <string>none</string>
   <key>keyEquivalent</key>
