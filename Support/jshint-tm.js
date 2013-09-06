@@ -15,9 +15,10 @@ function html(s) {
 
 /**
  * Downloads the latest JSHint version from GitHub and invokes the callback when done.
+ * https://raw.github.com/jshint/jshint/master/src/jshint.js
  */
 function download(ready) {
-  var req = https.get({host: 'raw.github.com', port: 443, path: '/jshint/jshint/master/jshint.js'}, function(res) {
+  var req = https.get({host: 'raw.github.com', port: 443, path: '/jshint/jshint/master/src/jshint.js'}, function(res) {
     if (res.statusCode == 200) {
       res.setEncoding('utf8');
       var data = '';
