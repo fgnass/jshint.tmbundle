@@ -2,6 +2,9 @@ var fs = require('fs');
 var https = require('https');
 var env = process.env || process.ENV;
 var jshintPath = __dirname + '/jshint.js';
+var jshintPackagePath = __dirname + '/package.json';
+var exec = require('child_process').exec;
+var child;
 var entities = {
   '&': '&amp;',
   '"': '&quot;',
@@ -15,10 +18,11 @@ function html(s) {
 
 /**
  * Downloads the latest JSHint version from GitHub and invokes the callback when done.
+ * https://raw.github.com/jshint/jshint/master/src/jshint.js
  */
-function download(ready) {
-  var req = https.get({host: 'raw.github.com', port: 443, path: '/jshint/jshint/master/jshint.js'}, function(res) {
-    if (res.statusCode == 200) {
+function download_jshint(ready) {
+  var req = https.get({host: 'raw.github.com', port: 443, path: '/jshint/jshint/master/src/jshint.js'}, function(res) {
+    if (res.statusCode === 200) {
       res.setEncoding('utf8');
       var data = '';
       res.on('data', function(chunk) {
@@ -37,14 +41,76 @@ function download(ready) {
 }
 
 /**
+ * Downloads the latest package.json for JSHint from GitHub and invokes the callback when done.
+ * https://raw.github.com/jshint/jshint/master/package.json
+ */
+function download_jshint_package_json(ready) {
+  var req = https.get({host: 'raw.github.com', port: 443, path: '/jshint/jshint/master/package.json'}, function(res) {
+    if (res.statusCode === 200) {
+      res.setEncoding('utf8');
+      var data = '';
+      res.on('data', function(chunk) {
+        data += chunk;
+      });
+      res.on('end', function() {
+        fs.writeFile(jshintPackagePath, data, ready);
+      });
+    }
+    else {
+      ready('Download of package.json for jshint.js failed. HTTP status code: ' + res.statusCode);
+    }
+  }).on('error', function(err) {
+    ready('Download of package.json for jshint.js failed: ' + html(err.message));
+  });
+}
+
+/**
+ * Runs npm install --production for JSHint in Support dir and invokes the callback when done.
+ * https://raw.github.com/jshint/jshint/master/src/jshint.js
+ */
+function run_npm_install_for_jshint(ready) {
+  var install = exec('npm install --production',
+    { encoding: 'utf8', cwd: __dirname },
+    function (error, stdout, stderr) {
+    if (error) {
+      ready('npm install of production dependencies for jshint.js failed: ' + stderr);
+    } else {
+      ready();
+    }
+  }).on('error', function(err) {
+    ready('Download of package.json for jshint.js failed: ' + html(err.message));
+  });
+}
+
+function download(callback) {
+  function done(err) {
+    callback(err);
+  }
+  download_jshint(function (err) {
+    if (err) {
+      done(err);
+    } else {
+      download_jshint_package_json(function (err) {
+        if (err) {
+          done(err);
+        } else {
+          run_npm_install_for_jshint(done);
+        }
+      });
+    }
+  });
+}
+
+/**
  * Updates the local copy of jshint.js (if it is older than one day) and
- * invokes the given callback, passing the JSHINT object. 
+ * invokes the given callback, passing the JSHINT object.
  */
 function autoupdate(callback) {
   var fileExists;
   function done(err) {
     callback(err, (!err || fileExists) && require(jshintPath).JSHINT);
   }
+  // Download jshint.js and update production npm module dependencies
   fs.stat(jshintPath, function(err, stats) {
     fileExists = !err;
     if (err || (Date.now() - Date.parse(stats.mtime)) / 1000 / 60 / 60 / 24 >= 1) {
