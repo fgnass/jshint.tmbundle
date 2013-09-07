@@ -129,7 +129,15 @@ module.exports = function(options) {
     if (jshint) {
 
       var file = env.TM_FILEPATH;
-      var input = fs.readFileSync(file, 'utf8');
+      var savedFile = fs.readFileSync(file, 'utf8');
+      var currentDocument = fs.readFileSync('/dev/stdin').toString();
+      var input = "";
+
+      if (currentDocument.length > 0) {
+        input = currentDocument;
+      } else {
+        input = savedFile;
+      }
 
       //remove shebang
       input = input.replace(/^\#\!.*/, '');
