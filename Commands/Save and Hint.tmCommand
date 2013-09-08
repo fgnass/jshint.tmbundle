@@ -17,8 +17,10 @@ jshint(jshint_options);</string>
   <string>@s</string>
   <key>name</key>
   <string>Save &amp; Hint</string>
-  <key>output</key>
-  <string>none</string>
+  <key>outputFormat</key>
+  <string>html</string>
+  <key>outputLocation</key>
+  <string>newWindow</string>
   <key>scope</key>
   <string>source.js</string>
   <key>uuid</key>

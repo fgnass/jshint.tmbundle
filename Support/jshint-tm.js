@@ -4,6 +4,7 @@ var env = process.env || process.ENV;
 var jshintPath = __dirname + '/jshint.js';
 var jshintPackagePath = __dirname + '/package.json';
 var exec = require('child_process').exec;
+var spawn = require('child_process').spawn;
 var child;
 var entities = {
   '&': '&amp;',
@@ -120,18 +121,23 @@ function autoupdate(callback) {
   });
 }
 
+function closeWindowWithTitle(title) {
+  spawn('osascript',  ['close-window.applescript', title], { cwd: __dirname });
+}
+
 module.exports = function(options) {
   autoupdate(function(err, jshint) {
+    var file = env.TM_FILEPATH;
+    var savedFile = fs.readFileSync(file, 'utf8');
+    var currentDocument = fs.readFileSync('/dev/stdin').toString();
+    var title = "JSHint: " + env.TM_FILENAME;
+    var input = "";
+
     var body = '';
     if (err) {
       body += '<div class="error">' + err + '</div>';
     }
     if (jshint) {
-
-      var file = env.TM_FILEPATH;
-      var savedFile = fs.readFileSync(file, 'utf8');
-      var currentDocument = fs.readFileSync('/dev/stdin').toString();
-      var input = "";
 
       if (currentDocument.length > 0) {
         input = currentDocument;
@@ -167,9 +173,13 @@ module.exports = function(options) {
     }
     if (body.length > 0) {
       fs.readFile(__dirname + '/output.html', 'utf8', function(e, html) {
-        console.log(html.replace('{body}', body));
+        html = html.replace('{body}', body);
+        html = html.replace('<title>jshint</title>', "<title>" + title + "</title>");
+        console.log(html);
         process.exit(205); //show_html
       });
+    } else {
+      closeWindowWithTitle(title);
     }
   });
 };
