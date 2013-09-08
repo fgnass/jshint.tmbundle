@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
   <key>beforeRunningCommand</key>
-  <string>saveActiveFile</string>
+  <string>nop</string>
   <key>command</key>
   <string>#!/usr/bin/env node
 var env = process.env || process.ENV,
@@ -12,11 +12,13 @@ var env = process.env || process.ENV,
 
 jshint(jshint_options);</string>
   <key>input</key>
-  <string>none</string>
+  <string>document</string>
+  <key>inputFormat</key>
+  <string>text</string>
   <key>keyEquivalent</key>
-  <string>@s</string>
+  <string>^L</string>
   <key>name</key>
-  <string>Save &amp; Hint</string>
+  <string>Hint</string>
   <key>outputFormat</key>
   <string>html</string>
   <key>outputLocation</key>
@@ -24,8 +26,6 @@ jshint(jshint_options);</string>
   <key>scope</key>
   <string>source.js</string>
   <key>uuid</key>
-  <string>0048A010-05A0-4A0E-BF97-793A3BA4617D</string>
-  <key>version</key>
-  <integer>2</integer>
+  <string>fc33ecd0-172f-11e3-8ffd-0800200c9a66</string>
 </dict>
 </plist>
