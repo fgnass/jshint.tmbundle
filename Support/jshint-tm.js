@@ -21,23 +21,28 @@ function html(s) {
  * Downloads the latest JSHint version from GitHub and invokes the callback when done.
  * https://raw.github.com/jshint/jshint/master/src/jshint.js
  */
-function download_jshint(ready) {
-  var req = https.get({host: 'raw.github.com', port: 443, path: '/jshint/jshint/master/src/jshint.js'}, function(res) {
-    if (res.statusCode === 200) {
-      res.setEncoding('utf8');
-      var data = '';
-      res.on('data', function(chunk) {
-        data += chunk;
-      });
-      res.on('end', function() {
-        fs.writeFile(jshintPath, data, ready);
-      });
-    }
-    else {
-      ready('Download of jshint.js failed. HTTP status code: ' + res.statusCode);
-    }
-  }).on('error', function(err) {
-    ready('Download of jshint.js failed: ' + html(err.message));
+function download_jshint_resources(ready) {
+  var req,
+      resources = ["jshint.js", "vars.js", "messages.js", "lex.js", "reg.js", "state.js", "style.js"];
+
+  resources.forEach(function(resource) {
+    req = https.get({host: 'raw.github.com', port: 443, path: '/jshint/jshint/master/src/' + resource}, function(res) {
+      if (res.statusCode === 200) {
+        res.setEncoding('utf8');
+        var data = '';
+        res.on('data', function(chunk) {
+          data += chunk;
+        });
+        res.on('end', function() {
+          fs.writeFile(__dirname + '/' + resource, data, ready);
+        });
+      }
+      else {
+        ready('Download of ' + resource + ' failed. HTTP status code: ' + res.statusCode);
+      }
+    }).on('error', function(err) {
+      ready('Download of ' + resource + ' failed: ' + html(err.message));
+    });
   });
 }
 
@@ -87,7 +92,7 @@ function download(callback) {
   function done(err) {
     callback(err);
   }
-  download_jshint(function (err) {
+  download_jshint_resources(function (err) {
     if (err) {
       done(err);
     } else {
