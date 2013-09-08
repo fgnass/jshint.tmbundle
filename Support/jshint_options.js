@@ -3,7 +3,6 @@ var env = process.env || process.ENV;
 
 module.exports = function() {
   var default_options = {
-      "es5": true,
       "forin": true,
       "predef": [
           // CommonJS
@@ -25,24 +24,24 @@ module.exports = function() {
 
   function readCustomOptions(path) {
     if (fs.existsSync(path)) {
-      return fs.readFileSync(path, 'utf8');
+      return JSON.parse(fs.readFileSync(path, 'utf8'));
     } else {
       return false;
     }
   }
 
   if (current_dir) {
-    options = readCustomOptions(current_dir + '.jslintrc');
+    options = readCustomOptions(current_dir + '/.jshintrc');
     if (options) return options;
   }
 
   if (project_dir) {
-    options = readCustomOptions(project_dir + '.jslintrc');
+    options = readCustomOptions(project_dir + '/.jshintrc');
     if (options) return options;
   }
 
   if (home_dir) {
-    options = readCustomOptions(home_dir + '.jslintrc');
+    options = readCustomOptions(home_dir + '/.jshintrc');
     if (options) return options;
   }
 
