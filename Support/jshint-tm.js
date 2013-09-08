@@ -129,9 +129,13 @@ module.exports = function(options) {
   autoupdate(function(err, jshint) {
     var file = env.TM_FILEPATH;
     var savedFile = fs.readFileSync(file, 'utf8');
-    var currentDocument = fs.readFileSync('/dev/stdin').toString();
     var title = "JSHint: " + env.TM_FILENAME;
     var input = "";
+    var currentDocument = "";
+    var readableStdin = fs.createReadStream('/dev/stdin', { encoding: 'utf8', autoClose: true });
+    readableStdin.on('data', function(chunk) {
+      currentDocument += chunk;
+    });
 
     var body = '';
     if (err) {
@@ -139,47 +143,49 @@ module.exports = function(options) {
     }
     if (jshint) {
 
-      if (currentDocument.length > 0) {
-        input = currentDocument;
-      } else {
-        input = savedFile;
-      }
+      readableStdin.on('end', function() {
+        if (currentDocument.length > 0) {
+          input = currentDocument;
+        } else {
+          input = savedFile;
+        }
 
-      //remove shebang
-      input = input.replace(/^\#\!.*/, '');
+        //remove shebang
+        input = input.replace(/^\#\!.*/, '');
 
-      if (!jshint(input, options)) {
-        jshint.errors.forEach(function(e, i) {
-          if (e) {
-            var link = 'txmt://open?url=file://' + escape(file) + '&line=' + e.line + '&column=' + e.character;
-            body += ('<a class="txmt" href="' + link + '" id="e' + (i+1) + '">');
-            if (i < 9) {
-              body += '<b>'+(i+1)+'</b>';
+        if (!jshint(input, options)) {
+          jshint.errors.forEach(function(e, i) {
+            if (e) {
+              var link = 'txmt://open?url=file://' + escape(file) + '&line=' + e.line + '&column=' + e.character;
+              body += ('<a class="txmt" href="' + link + '" id="e' + (i+1) + '">');
+              if (i < 9) {
+                body += '<b>'+(i+1)+'</b>';
+              }
+              body += e.reason;
+              if (e.evidence && !isNaN(e.character)) {
+                body += '<tt>';
+                body += html(e.evidence.substring(0, e.character-1));
+                body += '<em>';
+                body += (e.character <= e.evidence.length) ? html(e.evidence.substring(e.character-1, e.character)) : '&nbsp;';
+                body += '</em>';
+                body += html(e.evidence.substring(e.character));
+                body += '</tt>';
+              }
+              body += '</a>';
             }
-            body += e.reason;
-            if (e.evidence && !isNaN(e.character)) {
-              body += '<tt>';
-              body += html(e.evidence.substring(0, e.character-1));
-              body += '<em>';
-              body += (e.character <= e.evidence.length) ? html(e.evidence.substring(e.character-1, e.character)) : '&nbsp;';
-              body += '</em>';
-              body += html(e.evidence.substring(e.character));
-              body += '</tt>';
-            }
-            body += '</a>';
-          }
-        });
-      }
-    }
-    if (body.length > 0) {
-      fs.readFile(__dirname + '/output.html', 'utf8', function(e, html) {
-        html = html.replace('{body}', body);
-        html = html.replace('<title>jshint</title>', "<title>" + title + "</title>");
-        console.log(html);
-        process.exit(205); //show_html
+          });
+        }
+        if (body.length > 0) {
+          fs.readFile(__dirname + '/output.html', 'utf8', function(e, html) {
+            html = html.replace('{body}', body);
+            html = html.replace('<title>jshint</title>', "<title>" + title + "</title>");
+            console.log(html);
+            process.exit(205); //show_html
+          });
+        } else {
+          closeWindowWithTitle(title);
+        }
       });
-    } else {
-      closeWindowWithTitle(title);
     }
   });
 };
