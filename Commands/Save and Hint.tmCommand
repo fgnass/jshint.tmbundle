@@ -7,7 +7,7 @@
   <key>command</key>
   <string>#!/usr/bin/env node
 var env = process.env || process.ENV,
-    jshint = require(env.TM_BUNDLE_SUPPORT + '/jshint-tm');
+    jshint = require(env.TM_BUNDLE_SUPPORT + '/jshint-tm'),
     jshint_options = require(env.TM_BUNDLE_SUPPORT + '/jshint_options')();
 
 jshint(jshint_options);</string>
@@ -17,11 +17,15 @@ jshint(jshint_options);</string>
   <string>@s</string>
   <key>name</key>
   <string>Save &amp; Hint</string>
-  <key>output</key>
-  <string>none</string>
+  <key>outputFormat</key>
+  <string>html</string>
+  <key>outputLocation</key>
+  <string>newWindow</string>
   <key>scope</key>
   <string>source.js</string>
   <key>uuid</key>
   <string>0048A010-05A0-4A0E-BF97-793A3BA4617D</string>
+  <key>version</key>
+  <integer>2</integer>
 </dict>
 </plist>
