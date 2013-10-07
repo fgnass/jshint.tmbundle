@@ -23,9 +23,10 @@ function html(s) {
  */
 function download_jshint_resources(ready) {
   var req,
-      resources = ["jshint.js", "vars.js", "messages.js", "lex.js", "reg.js", "state.js", "style.js"];
+      jshint_resources = ["jshint.js", "vars.js", "messages.js", "lex.js", "reg.js", "state.js", "style.js"],
+      jshint_data_resources = ["ascii-identifier-data.js", "non-ascii-identifier-part-only.js", "non-ascii-identifier-start.js"];
 
-  resources.forEach(function(resource) {
+  jshint_resources.forEach(function(resource) {
     req = https.get({host: 'raw.github.com', port: 443, path: '/jshint/jshint/master/src/' + resource}, function(res) {
       if (res.statusCode === 200) {
         res.setEncoding('utf8');
@@ -35,6 +36,25 @@ function download_jshint_resources(ready) {
         });
         res.on('end', function() {
           fs.writeFile(__dirname + '/' + resource, data, ready);
+        });
+      }
+      else {
+        ready('Download of ' + resource + ' failed. HTTP status code: ' + res.statusCode);
+      }
+    }).on('error', function(err) {
+      ready('Download of ' + resource + ' failed: ' + html(err.message));
+    });
+  });
+  jshint_data_resources.forEach(function(resource) {
+    req = https.get({host: 'raw.github.com', port: 443, path: '/jshint/jshint/master/data/' + resource}, function(res) {
+      if (res.statusCode === 200) {
+        res.setEncoding('utf8');
+        var data = '';
+        res.on('data', function(chunk) {
+          data += chunk;
+        });
+        res.on('end', function() {
+          fs.writeFile(__dirname + '/../data/' + resource, data, ready);
         });
       }
       else {
