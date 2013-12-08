@@ -18,8 +18,8 @@ function html(s) {
 }
 
 /**
- * Downloads the latest JSHint version from GitHub and invokes the callback when done.
- * https://raw.github.com/jshint/jshint/master/src/jshint.js
+ * Downloads the latest JSHint from the 2.x branch from GitHub and invokes the callback when done.
+ * https://raw.github.com/jshint/jshint/2.x/src/jshint.js
  */
 function download_jshint_resources(ready) {
   var req,
@@ -27,7 +27,7 @@ function download_jshint_resources(ready) {
       jshint_data_resources = ["ascii-identifier-data.js", "non-ascii-identifier-part-only.js", "non-ascii-identifier-start.js"];
 
   jshint_resources.forEach(function(resource) {
-    req = https.get({host: 'raw.github.com', port: 443, path: '/jshint/jshint/master/src/' + resource}, function(res) {
+    req = https.get({host: 'raw.github.com', port: 443, path: '/jshint/jshint/2.x/src/' + resource}, function(res) {
       if (res.statusCode === 200) {
         res.setEncoding('utf8');
         var data = '';

@@ -311,18 +311,10 @@ var JSHINT = (function () {
 		});
 	}
 
-	function combine(t, o) {
-		var n;
-		for (n in o) {
-			if (_.has(o, n) && !_.has(JSHINT.blacklist, n)) {
-				t[n] = o[n];
-			}
-		}
-	}
-
-	function updatePredefined() {
-		Object.keys(JSHINT.blacklist).forEach(function (key) {
-			delete predefined[key];
+	function combine(dest, src) {
+		Object.keys(src).forEach(function (name) {
+			if (JSHINT.blacklist.hasOwnProperty(name)) return;
+			dest[name] = src[name];
 		});
 	}
 
@@ -547,8 +539,7 @@ var JSHINT = (function () {
 					}
 				}
 			} else {
-				if (!state.option.shadow && type !== "exception" ||
-							(funct["(blockscope)"].getlabel(t))) {
+				if (!state.option.shadow && type !== "exception" || (funct["(blockscope)"].getlabel(t))) {
 					warning("W004", state.tokens.next, t);
 				}
 			}
@@ -604,7 +595,7 @@ var JSHINT = (function () {
 					val = false;
 
 					JSHINT.blacklist[key] = key;
-					updatePredefined();
+					delete predefined[key];
 				} else {
 					predef[key] = (val === "true");
 				}
@@ -697,15 +688,14 @@ var JSHINT = (function () {
 
 				if (key === "validthis") {
 					// `validthis` is valid only within a function scope.
-					if (funct["(global)"]) {
-						error("E009");
-					} else {
-						if (val === "true" || val === "false") {
-							state.option.validthis = (val === "true");
-						} else {
-							error("E002", nt);
-						}
-					}
+
+					if (funct["(global)"])
+						return void error("E009");
+
+					if (val !== "true" && val !== "false")
+						return void error("E002", nt);
+
+					state.option.validthis = (val === "true");
 					return;
 				}
 
@@ -1948,17 +1938,13 @@ var JSHINT = (function () {
 
 
 	function note_implied(tkn) {
-		var name = tkn.value, line = tkn.line, a = implied[name];
-		if (typeof a === "function") {
-			a = false;
-		}
+		var name = tkn.value;
+		var desc = Object.getOwnPropertyDescriptor(implied, name);
 
-		if (!a) {
-			a = [line];
-			implied[name] = a;
-		} else if (a[a.length - 1] !== line) {
-			a.push(line);
-		}
+		if (!desc)
+			implied[name] = [tkn.line];
+		else
+			desc.value.push(tkn.line);
 	}
 
 
@@ -3045,7 +3031,11 @@ var JSHINT = (function () {
 					}
 
 					i = property_name();
-					if (!i) {
+
+					// ES6 allows for get() {...} and set() {...} method
+					// definition shorthand syntax, so we don't produce an error
+					// if the esnext option is enabled.
+					if (!i && !state.option.inESNext()) {
 						error("E035");
 					}
 
@@ -3055,13 +3045,19 @@ var JSHINT = (function () {
 						error("E049", state.tokens.next, "class getter method", i);
 					}
 
-					saveGetter(tag + i);
+					// We don't want to save this getter unless it's an actual getter
+					// and not an ES6 concise method
+					if (i) {
+						saveGetter(tag + i);
+					}
+
 					t = state.tokens.next;
 					adjacent(state.tokens.curr, state.tokens.next);
 					f = doFunction();
 					p = f["(params)"];
 
-					if (p) {
+					// Don't warn about getter/setter pairs if this is an ES6 concise method
+					if (i && p) {
 						warning("W076", t, p[0], i);
 					}
 
@@ -3074,7 +3070,11 @@ var JSHINT = (function () {
 					}
 
 					i = property_name();
-					if (!i) {
+
+					// ES6 allows for get() {...} and set() {...} method
+					// definition shorthand syntax, so we don't produce an error
+					// if the esnext option is enabled.
+					if (!i && !state.option.inESNext()) {
 						error("E035");
 					}
 
@@ -3084,13 +3084,19 @@ var JSHINT = (function () {
 						error("E049", state.tokens.next, "class setter method", i);
 					}
 
-					saveSetter(tag + i, state.tokens.next);
+					// We don't want to save this getter unless it's an actual getter
+					// and not an ES6 concise method
+					if (i) {
+						saveSetter(tag + i, state.tokens.next);
+					}
+
 					t = state.tokens.next;
 					adjacent(state.tokens.curr, state.tokens.next);
 					f = doFunction();
 					p = f["(params)"];
 
-					if (!p || p.length !== 1) {
+					// Don't warn about getter/setter pairs if this is an ES6 concise method
+					if (i && (!p || p.length !== 1)) {
 						warning("W077", t, i);
 					}
 				} else {
@@ -4023,7 +4029,8 @@ var JSHINT = (function () {
 				this.first = expression(0);
 
 				if (this.first &&
-						this.first.type === "(punctuator)" && this.first.value === "=" && !state.option.boss) {
+						this.first.type === "(punctuator)" && this.first.value === "=" &&
+						!this.first.paren && !state.option.boss) {
 					warningAt("W093", this.first.line, this.first.character);
 				}
 			}
@@ -4056,7 +4063,8 @@ var JSHINT = (function () {
 				nobreaknonadjacent(state.tokens.curr, state.tokens.next);
 				this.first = expression(10);
 
-				if (this.first.type === "(punctuator)" && this.first.value === "=" && !state.option.boss) {
+				if (this.first.type === "(punctuator)" && this.first.value === "=" &&
+						!this.first.paren && !state.option.boss) {
 					warningAt("W093", this.first.line, this.first.character);
 				}
 			}
@@ -4517,6 +4525,7 @@ var JSHINT = (function () {
 		var newOptionObj = {};
 		var newIgnoredObj = {};
 
+		o = _.clone(o);
 		state.reset();
 
 		if (o && o.scope) {
