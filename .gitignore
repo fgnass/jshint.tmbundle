@@ -1,1 +1,4 @@
+*~
 .DS_Store
+Support/node_modules
+Support/npm-debug.log
